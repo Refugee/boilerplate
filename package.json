@@ -1,23 +1,28 @@
 {
-  "name": "boilerplate",
-  "version": "0.0.0",
-  "description": "A simple front-end boilerplate.",
-  "main": "Gruntfile.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Refugee/boilerplate.git"
-  },
-  "keywords": [
-    "front-end",
-    "boilerplate"
-  ],
-  "author": "Rafael Birkmann",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Refugee/boilerplate/issues"
-  },
-  "homepage": "https://github.com/Refugee/boilerplate"
+	"name": "boilerplate",
+	"version": "0.0.0",
+	"description": "A simple front-end boilerplate.",
+	"main": "Gruntfile.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Refugee/boilerplate.git"
+	},
+	"keywords": [
+		"grunt",
+		"boilerplate"
+	],
+	"author": "Rafael Birkmann",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Refugee/boilerplate/issues"
+	},
+	"homepage": "https://github.com/Refugee/boilerplate",
+	"devDependencies": {
+		"grunt": "^0.4.5",
+		"grunt-contrib-uglify": "^0.6.0",
+		"grunt-contrib-jshint": "^0.10.0"
+	}
 }
