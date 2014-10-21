@@ -35,7 +35,7 @@ module.exports = function(grunt) {
 		cssmin: {
 			add_banner: {
 				options: {
-					banner: '/* My minified css file */'
+					banner: '/* banner */'
 				},
 				files: {
 					'build/css/main.css': ['build/css/**/*.css']
@@ -83,10 +83,10 @@ module.exports = function(grunt) {
 		},
 
 		connect: {
-			dev: {
+			server: {
 				options: {
 					port: 8000,
-					base: './dist/'
+					base: './build/'
 				}
 			}
 		}
