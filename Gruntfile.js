@@ -8,7 +8,8 @@ module.exports = function(grunt) {
 			options: {
 				layout: 'page.hbs',
 				layoutdir: './source/assemble/templates/layouts/',
-				partials: './source/assemble/templates/partials/**/*.hbs'
+				partials: './source/assemble/templates/partials/**/*.hbs',
+				helpers: './source/assemble/templates/helpers/**/*.js'
 			},
 			dev: {
 				files: [
@@ -27,6 +28,17 @@ module.exports = function(grunt) {
 			dist: {
 				files: {
 					'build/css/main.css': 'source/sass/*.scss'
+				}
+			}
+		},
+
+		cssmin: {
+			add_banner: {
+				options: {
+					banner: '/* My minified css file */'
+				},
+				files: {
+					'build/css/main.css': ['build/css/**/*.css']
 				}
 			}
 		},
@@ -86,6 +98,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-sync');
 	grunt.loadNpmTasks('grunt-newer');
 	grunt.loadNpmTasks('grunt-contrib-sass');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-watch');
@@ -96,6 +109,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('build', [
 		'newer:assemble',
 		'sass',
+		'cssmin',
 		'uglify',
 		'connect',
 		'sync',
