@@ -34,17 +34,39 @@ module.exports = function(grunt) {
 		uglify: {
     		my_target: {
       			files: {
-					'build/js/main.min.js': ['source/js/jquery.js', 'source/js/main.js']
+					'build/js/main.min.js': ['source/js/vendor/jquery.js', 'source/js/main.js'],
+					'build/js/vendor/modernizr.min.js': ['source/js/vendor/modernizr.js']
 				}
 			}
   		},
 
-		watch: {
-			scripts: {
+  		sync: {
+			js: {
 				files: [
-					'source/sass/**/*.scss'
-				],
+					{
+						cwd: 'source/js/',
+						dest: 'build/js/',
+						src: '**/*'
+					}
+				]
+			}
+		},
+
+		watch: {
+			options: {
+				livereload: true
+			},
+			scss: {
+				files: ['source/sass/**/*.scss'],
 				tasks: ['sass']
+			},
+			js: {
+				files: ['source/js/**/*.js'],
+				tasks: ['uglify']
+			},
+			templates: {
+				files: ['source/assemble/**/*.{json,hbs}'],
+				tasks: ['assemble']
 			}
 		},
 
@@ -59,19 +81,24 @@ module.exports = function(grunt) {
 
 	});
 
+	grunt.loadNpmTasks('assemble');
+
+	grunt.loadNpmTasks('grunt-sync');
+	grunt.loadNpmTasks('grunt-newer');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('assemble');
+	grunt.loadNpmTasks('grunt-contrib-copy');
 
 	grunt.registerTask('default', ['build']);
 
 	grunt.registerTask('build', [
-		'assemble',
+		'newer:assemble',
 		'sass',
 		'uglify',
 		'connect',
+		'sync',
 		'watch'
 	]);
 
