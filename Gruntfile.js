@@ -24,10 +24,20 @@ module.exports = function(grunt) {
 			}
 		},
 
-		sass: {
+		compass: {
+			options: {
+				debugInfo: false,
+				force: true,
+				noLineComments: true,
+				outputStyle: 'expanded',
+				require: ['sass-globbing', 'compass/import-once'],
+				sassDir: 'source/sass/'
+			},
 			dist: {
-				files: {
-					'build/css/main.css': 'source/sass/*.scss'
+				options: {
+					cssDir: 'build/css/',
+					sourcemap: true,
+					sourcemap: false
 				}
 			}
 		},
@@ -70,7 +80,7 @@ module.exports = function(grunt) {
 			},
 			scss: {
 				files: ['source/sass/**/*.scss'],
-				tasks: ['sass']
+				tasks: ['compass']
 			},
 			js: {
 				files: ['source/js/**/*.js'],
@@ -109,7 +119,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('build', [
 		'newer:assemble',
-		'sass',
+		'compass',
 		'cssmin',
 		'uglify',
 		'connect',
