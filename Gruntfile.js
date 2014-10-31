@@ -24,6 +24,16 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Configuration for copying files
+		copy: {
+			images: {
+				cwd: 'source/img/',
+				dest: 'build/img/',
+				expand: true,
+				src: ['**/*']
+			}
+		},
+
 		compass: {
 			options: {
 				debugInfo: false,
@@ -122,6 +132,7 @@ module.exports = function(grunt) {
 		'compass',
 		'cssmin',
 		'uglify',
+		'copy:images',
 		'connect',
 		'sync',
 		'watch'
