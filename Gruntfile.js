@@ -21,6 +21,17 @@ module.exports = function(grunt) {
 						src: ['**/*.hbs']
 					}
 				]
+			},
+			dist: {
+				files: [
+					{
+						cwd: 'source/assemble/content/_pages/',
+						dest: 'dist/',
+						expand: true,
+						flatten: true,
+						src: ['**/*.hbs']
+					}
+				]
 			}
 		},
 
@@ -40,25 +51,32 @@ module.exports = function(grunt) {
 				force: true,
 				noLineComments: true,
 				outputStyle: 'expanded',
-				require: ['sass-globbing', 'compass/import-once'],
+				require: ['sass-globbing', 'compass/import-once', 'susy'],
 				sassDir: 'source/sass/'
+			},
+			dev: {
+				options: {
+					cssDir: 'build/css/',
+					sourcemap: true
+				}
 			},
 			dist: {
 				options: {
-					cssDir: 'build/css/',
-					sourcemap: true,
+					cssDir: 'dist/css/',
 					sourcemap: false
 				}
 			}
 		},
 
 		cssmin: {
-			add_banner: {
-				options: {
-					banner: '/* banner */'
-				},
-				files: {
-					'build/css/main.css': ['build/css/**/*.css']
+			dist: {
+					add_banner: {
+					options: {
+						banner: '/* banner */'
+					},
+					files: {
+						'build/css/main.css': ['build/css/**/*.css']
+					}
 				}
 			}
 		},
@@ -66,7 +84,7 @@ module.exports = function(grunt) {
 		uglify: {
     		my_target: {
       			files: {
-					'build/js/main.min.js': ['source/js/vendor/jquery.js', 'source/js/main.js'],
+					'build/js/main.min.js': ['source/js/vendor/jquery.js', 'source/js/main.js', 'source/js/modules/**/*'],
 					'build/js/vendor/modernizr.min.js': ['source/js/vendor/modernizr.js']
 				}
 			}
@@ -117,6 +135,7 @@ module.exports = function(grunt) {
 
 	grunt.loadNpmTasks('grunt-sync');
 	grunt.loadNpmTasks('grunt-newer');
+	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
@@ -128,8 +147,19 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['build']);
 
 	grunt.registerTask('build', [
-		'newer:assemble',
-		'compass',
+		'newer:assemble:dev',
+		'compass:dev',
+		//'cssmin',
+		'uglify',
+		'copy:images',
+		'connect',
+		'sync',
+		'watch'
+	]);
+
+	grunt.registerTask('dist', [
+		'newer:assemble:dist',
+		'compass:dist',
 		'cssmin',
 		'uglify',
 		'copy:images',
