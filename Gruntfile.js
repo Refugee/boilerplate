@@ -35,13 +35,48 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Configuration for copying files
 		copy: {
-			images: {
+			dev: {
 				cwd: 'source/img/',
 				dest: 'build/img/',
 				expand: true,
 				src: ['**/*']
+			},
+			dist: {
+				cwd: 'source/img/',
+				dest: 'dist/img/',
+				expand: true,
+				src: ['**/*']
+			}
+		},
+
+		includes: {
+			options: {
+				duplicates: false,
+				flatten: true,
+				includeRegexp: /^\/\/\s*import\s+['"]?([^'"]+)['"]?\s*$/
+			},
+			dev: {
+				files: [
+					{
+						cwd: 'source/js',
+						dest: 'build/js',
+						expand: true,
+						ext: '.js',
+						src: ['**/*.js']
+					}
+				]
+			},
+			dist: {
+				files: [
+					{
+						cwd: 'source/js',
+						dest: 'dist/js',
+						expand: true,
+						ext: '.js',
+						src: ['**/*.js']
+					}
+				]
 			}
 		},
 
@@ -75,17 +110,16 @@ module.exports = function(grunt) {
 						banner: '/* banner */'
 					},
 					files: {
-						'build/css/main.css': ['build/css/**/*.css']
+						'dist/css/main.css': ['dist/css/**/*.css']
 					}
 				}
 			}
 		},
 
 		uglify: {
-    		my_target: {
-      			files: {
-					'build/js/main.min.js': ['source/js/vendor/jquery.js', 'source/js/main.js', 'source/js/modules/**/*'],
-					'build/js/vendor/modernizr.min.js': ['source/js/vendor/modernizr.js']
+			my_target: {
+				files: {
+					'dist/js/main.js': ['source/js/main.js',],
 				}
 			}
   		},
@@ -112,7 +146,7 @@ module.exports = function(grunt) {
 			},
 			js: {
 				files: ['source/js/**/*.js'],
-				tasks: ['uglify']
+				tasks: ['includes:dev', 'sync']
 			},
 			templates: {
 				files: ['source/assemble/**/*.{json,hbs}'],
@@ -135,6 +169,7 @@ module.exports = function(grunt) {
 
 	grunt.loadNpmTasks('grunt-sync');
 	grunt.loadNpmTasks('grunt-newer');
+	grunt.loadNpmTasks('grunt-includes');
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-contrib-compass');
@@ -149,9 +184,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('build', [
 		'newer:assemble:dev',
 		'compass:dev',
-		//'cssmin',
-		'uglify',
-		'copy:images',
+		'includes:dev',
+		'copy:dev',
 		'connect',
 		'sync',
 		'watch'
@@ -160,12 +194,10 @@ module.exports = function(grunt) {
 	grunt.registerTask('dist', [
 		'newer:assemble:dist',
 		'compass:dist',
-		'cssmin',
+		'includes:dist',
+		'copy:dist',
+		'cssmin:dist',
 		'uglify',
-		'copy:images',
-		'connect',
-		'sync',
-		'watch'
 	]);
 
 };
