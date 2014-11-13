@@ -146,7 +146,7 @@ module.exports = function(grunt) {
 			},
 			templates: {
 				files: ['source/assemble/**/*.{json,hbs}'],
-				tasks: ['assemble']
+				tasks: ['assemble:dev']
 			}
 		},
 
@@ -193,7 +193,7 @@ module.exports = function(grunt) {
 		'cssmin:dist',
 		'includes:dist',
 		'copy:dist',
-		'uglify',
+		'uglify'
 	]);
 
 };
