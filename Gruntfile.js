@@ -105,21 +105,17 @@ module.exports = function(grunt) {
 
 		cssmin: {
 			dist: {
-					add_banner: {
-					options: {
-						banner: '/* banner */'
-					},
-					files: {
-						'dist/css/main.css': ['dist/css/**/*.css']
-					}
-				}
+				cwd: 'dist/css/',
+				dest: 'dist/css/',
+				expand: true,
+				src: ['*.css']
 			}
 		},
 
 		uglify: {
 			my_target: {
 				files: {
-					'dist/js/main.js': ['source/js/main.js',],
+					'dist/js/main.js': ['dist/js/main.js'],
 				}
 			}
   		},
@@ -194,9 +190,9 @@ module.exports = function(grunt) {
 	grunt.registerTask('dist', [
 		'newer:assemble:dist',
 		'compass:dist',
+		'cssmin:dist',
 		'includes:dist',
 		'copy:dist',
-		'cssmin:dist',
 		'uglify',
 	]);
 
