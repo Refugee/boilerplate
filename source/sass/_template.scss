@@ -1,3 +1,11 @@
+@import "susy";
+
+$susy: (
+	columns: 12,
+	gutters: .4,
+	global-box-sizing: border-box
+);
+
 body {
 	font-family: sans-serif;
 	line-height: 1.6em;
