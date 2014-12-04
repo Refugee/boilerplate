@@ -11,6 +11,7 @@ $susy: (
 );
 
 body {
+	overflow-y: scroll;
 	font-family: sans-serif;
 	line-height: 1.6em;
 	color: $text-color-dark;
