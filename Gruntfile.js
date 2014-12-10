@@ -144,6 +144,10 @@ module.exports = function(grunt) {
 				files: ['source/js/**/*.js'],
 				tasks: ['includes:dev', 'sync']
 			},
+			img: {
+				files: ['source/img/**/*'],
+				tasks: ['copy:dev', 'sync']
+			},
 			templates: {
 				files: ['source/assemble/**/*.{json,hbs}'],
 				tasks: ['assemble:dev']
